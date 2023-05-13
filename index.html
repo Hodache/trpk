@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <h1>Проверка наличия книг</h1>
+
+        <form class="form-inline d-flex gap-3 col-3 col-sm-6 col-md-4 mb-5 mt-4">
+            <input class="form-control mr-sm-2" type="search" placeholder="Название книги" aria-label="Поиск">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Найти</button>
+        </form>
+
+        <h2>Результаты поиска</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Автор</th>
+                    <th>Жанр</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Колесо времени</td>
+                    <td>Роберт Джордан</td>
+                    <td>Фэнтези</td>
+                </tr>
+                <tr>
+                    <td>Сага о ведьмаке</td>
+                    <td>Анджей Сапковский</td>
+                    <td>Фэнтези</td>
+                </tr>
+                <tr>
+                    <td>Игра престолов</td>
+                    <td>Джордж Мартин</td>
+                    <td>Фэнтези</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
