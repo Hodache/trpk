@@ -2,54 +2,119 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <title>Hello World!</title>
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <title>Hello World!</title>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
 
 <body>
 
-    <div class="container mt-5">
-        <h1>Проверка наличия книг</h1>
 
-        <form class="form-inline d-flex gap-3 col-3 col-sm-6 col-md-4 mb-5 mt-4">
-            <input class="form-control mr-sm-2" type="search" placeholder="Название книги" aria-label="Поиск">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Найти</button>
-        </form>
+  <div class="mt-5 mx-5">
+    <h1>Проверка наличия и расположения книг</h1>
 
+    <form id="searchForm" class="form-inline d-flex gap-3 col-3 col-sm-6 col-md-4 mb-5 mt-4">
+      <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder="Название книги"
+        aria-label="Поиск">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Найти</button>
+    </form>
+
+    <div class="row">
+
+      <div class="col-5">
         <h2>Результаты поиска</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Название</th>
-                    <th>Автор</th>
-                    <th>Жанр</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Колесо времени</td>
-                    <td>Роберт Джордан</td>
-                    <td>Фэнтези</td>
-                </tr>
-                <tr>
-                    <td>Сага о ведьмаке</td>
-                    <td>Анджей Сапковский</td>
-                    <td>Фэнтези</td>
-                </tr>
-                <tr>
-                    <td>Игра престолов</td>
-                    <td>Джордж Мартин</td>
-                    <td>Фэнтези</td>
-                </tr>
-            </tbody>
+        <!-- Таблица с результатами поиска -->
+        <table class="table table-striped" id="searchResults">
+          <thead>
+            <tr>
+              <th>Название</th>
+              <th>Автор</th>
+              <th>Жанр</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
         </table>
-    </div>
+      </div>
 
-    <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+      <div class="col-2">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">Название: <span class="pub-name"></span></h3>
+            <p class="card-text">Автор: <span class="pub-author"></span></p>
+            <p class="card-text">Цена: <span class="pub-price"></span></p>
+            <p class="card-text">Наличие: <span class="pub-count"> </span></p>
+            <p class="card-text">Расположение: <span class="pub-place"></span></p>
+            <button id="addButton" class="btn-add btn btn-outline-success my-2 d-none">Добавить в список</button>
+            <button id="openFormBtn" type="button" class="btn btn-primary d-none" data-bs-toggle="modal"
+              data-bs-target="#requestModal">Запросить это
+              издание</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Модальное окно с формой -->
+      <div class="modal fade" id="requestModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Создание заявки</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+              <form id="requestForm" onsubmit="">
+                <div class="mb-3">
+                  <label for="name" class="form-label">Имя</label>
+                  <input type="text" class="form-control" id="name" name="name" required>
+                  <div class="invalid-feedback">
+                    Пожалуйста, введите имя.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="email" name="email" required>
+                  <div class="invalid-feedback">
+                    Пожалуйста, введите корректный email.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="phone" class="form-label">Телефон (8 *** *** ** **)</label>
+                  <input type="tel" class="form-control" id="phone" name="phone" required
+                    pattern="^((\+7|7|8)+([0-9]){10})$">
+                  <div class="invalid-feedback">
+                    Пожалуйста, введите телефон.
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Отправить</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-5">
+        <!-- Таблица с сохраненными изданиями -->
+        <h2>Сохраненные издания</h2>
+        <table class="table table-striped" id="savedEditions">
+          <thead>
+            <tr>
+              <th>Название</th>
+              <th>Наличие</th>
+              <th>Расположение</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <button class="btn btn-danger" id="clearButton">Очистить</button>
+
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="renderer.js"></script>
 </body>
 
 </html>
