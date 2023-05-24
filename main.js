@@ -38,7 +38,7 @@ const createWindow = () => {
         height: 800,
         resizable: false,
         fullscreen: true,
-        titleBarStyle: 'hidden',
+        // titleBarStyle: 'hidden',
         webPreferences: {
             nodeIntegration: true, // Включение поддержки Node.js в окне рендеринга
             contextIsolation: false,

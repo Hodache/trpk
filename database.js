@@ -56,8 +56,6 @@ async function getPublicationById(id) {
 
 async function insertRequest(pid, name, email, phone) {
   try {
-    
-
     // Установка соединения с базой данных
     await sql.connect(config);
 

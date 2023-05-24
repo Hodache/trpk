@@ -6,9 +6,13 @@ function updatePublication(data) {
     $('.pub-name').html(data.name)
     $('.pub-author').html(data.author)
     $('.pub-price').html(`${data.price} р.`)
-    $('.pub-count').html(`${data.count} шт.`)
+    $('.pub-count').html(makeCountClear(data.count))
     $('.pub-place').html(data.place)
     $('#addButton').data('id', data.id);
+}
+
+function makeCountClear(count) {
+    return `${count} шт.`
 }
 
 function updateAddBtn() {
@@ -132,3 +136,5 @@ $('#requestForm').on('submit', function (event) {
         alert(`Заявка №${response[0].id} успешно создана!`)
     })
 });
+
+module.exports = makeCountClear
